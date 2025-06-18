@@ -1,11 +1,10 @@
-import { Children } from "react"
-
+import { useState } from "react"
 const TURNS = {
   X: 'X',
   O: 'O'
 }
 
-const board = Array(9).fill(null)
+
 const Square = ({ children, updateBoard, index }) => {
   return (
     <div className="square">
@@ -13,7 +12,10 @@ const Square = ({ children, updateBoard, index }) => {
     </div>
   )
 }
+
 function App() {
+  const [board,setBoard] = useState(Array(9).fill(null))
+
   return (
     <main className= 'board'>
       <h1>Triqui</h1>
@@ -21,11 +23,13 @@ function App() {
         {
           board.map(( _, index ) =>   {
             return (
-              <div className="cell" key = {index}>
-                <span className="cell__content">
-                  {index}
-                </span>
-              </div>
+              <Square
+                key={index}
+                index={index}
+              >
+                {index}
+              </Square>
+
             )  
           })
         }
