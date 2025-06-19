@@ -21,6 +21,15 @@ const Square = ({ children,isSelected, updateBoard, index }) => {
     </div>
   )
 }
+const WINNER_COMBOS = [
+  [0, 1, 2],
+  [3, 4, 5],
+  [6, 7, 8],
+  [0, 3, 6],
+  [1, 4, 7],
+  [2, 5, 8],
+  [0, 4, 8],
+]
 
 function App() {
   
@@ -28,13 +37,38 @@ function App() {
   
   const [turn, setTurn] = useState(TURNS.X)
 
+  const [winner,setWinner] =useState(null) // no hay ganador y false empate
+
+  const checkWinner = (boardToCheck)=>{
+    for (const combo of WINNER_COMBOS){
+      const [a, b, c] = combo
+      if(
+        boardToCheck[a] && 
+        boardToCheck[a] === boardToCheck[b] &&
+        boardToCheck[a] === boardToCheck[c]
+      ){
+        return boardToCheck[a]
+      }
+    }
+    //si no hay ganador retorna nulll
+    return null
+  }
   const updateBoard = (index) =>{
+    //no actualizamos esta posicion si ya tiene algo
+    if (board[index] || winner) return
+    
+    // actualizar el tablero
     const newBoard = [... board]
     newBoard[index] = turn
     setBoard(newBoard)
-
+    //cambiar el turno
     const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X
     setTurn(newTurn)
+    //revisar si hay un ganador
+    const newWinner = checkWinner(newBoard)
+    if(newWinner){
+      setWinner(newWinner)
+    }
   }
 
   return (
