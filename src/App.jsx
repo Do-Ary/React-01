@@ -3,7 +3,7 @@ import { Children } from "react"
 import confetti from "canvas-confetti"
 import { Square } from "./components/Square.jsx"
 import { TURNS } from "./constants.js"
-import { checkWinnerFrom } from "./Logic/board.js"
+import { checkWinnerFrom, checkEndGame } from "./Logic/board.js"
 import { WinnerModal } from "./components/WinnerModal.jsx"
 
 function App() {
@@ -18,10 +18,6 @@ function App() {
     setBoard(Array(9).fill(null))
     setTurn(TURNS.X)
     setWinner(null)  
-  }
-
-  const checkEndGame = (newBoard)=>{
-    return newBoard.every((square)=>square !== null)
   }
   const updateBoard = (index) =>{
     //no actualizamos esta posicion si ya tiene algo
